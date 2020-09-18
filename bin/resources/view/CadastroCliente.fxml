@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1280.0" style="-fx-background-color:#ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.view.ControllerViewCliente">
+   <children>
+      <MenuBar layoutX="1.0" layoutY="1.0" prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: #E0E0E0; -fx-padding: 3PX;" stylesheets="@../css/style.css">
+        <menus>
+          <Menu mnemonicParsing="false" text="Uni Cliente" />
+          <Menu mnemonicParsing="false" text="Sair">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#sair" text="Logout" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TableView fx:id="Tabela" layoutX="40.0" layoutY="226.0" prefHeight="680.0" prefWidth="794.0" stylesheets="@../css/style.css">
+        <columns>
+          <TableColumn fx:id="Id" prefWidth="132.80005264282227" text="Id" />
+          <TableColumn fx:id="Nome" prefWidth="255.19993591308594" text="Nome" />
+            <TableColumn fx:id="Cpf" prefWidth="204.0" text="CPF" />
+            <TableColumn fx:id="Email" prefWidth="203.9998779296875" text="E-mail" />
+        </columns>
+      </TableView>
+      <Label layoutX="40.0" layoutY="64.0" text="Clientes" textFill="#4b6eec">
+         <font>
+            <Font name="Arial" size="42.0" />
+         </font>
+      </Label>
+      <Pane layoutX="836.0" layoutY="226.0" prefHeight="680.0" prefWidth="397.0" style="-fx-background-color: #f5f5f5;">
+         <children>
+            <Label layoutX="40.0" layoutY="20.0" text="Selecione a ação:">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Pane fx:id="Painel" layoutX="40.0" layoutY="136.0" prefHeight="504.0" prefWidth="300.0">
+               <children>
+                  <Label fx:id="LabelId" layoutX="2.0" layoutY="42.0" text="Insira o Id" textFill="#4b6eec">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TxtId" layoutX="2.0" layoutY="82.0" prefHeight="42.0" prefWidth="157.0">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="TxtNome" layoutX="2.0" layoutY="182.0" prefHeight="40.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="LabelCPF" layoutX="2.0" layoutY="242.0" text="CPF" textFill="#4b6eec">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TxtCPF" layoutX="2.0" layoutY="282.0" prefHeight="40.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="LabelEmail" layoutX="2.0" layoutY="342.0" text="E-mail" textFill="#4b6eec">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TxtEmail" layoutX="2.0" layoutY="382.0" prefHeight="40.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="btnAdd" layoutX="2.0" layoutY="452.0" mnemonicParsing="false" onAction="#botaoAcao" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #4b6eec;" text="Adicionar" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="PesquisarId" layoutX="172.0" layoutY="82.0" mnemonicParsing="false" onAction="#findById" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #4b6eec;" text="Pesquisar" textFill="#4b6eec">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="LabelChange" layoutX="2.0" layoutY="-8.0" text="Alterar Cliente">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelNome" layoutX="2.0" layoutY="142.0" text="Nome" textFill="#4b6eec">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ComboBox fx:id="ChoiceCombo" layoutX="40.0" layoutY="75.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #e0e0e0;" />
+         </children>
+      </Pane>
+      <TextField fx:id="PesquisaNome" layoutX="40.0" layoutY="150.0" prefHeight="40.0" prefWidth="640.0" promptText="Pesquisar por Nome ">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="700.0" layoutY="150.0" mnemonicParsing="false" onAction="#findByName" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #4b6eec;" text="Pesquisar" textFill="#4b6eec">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
