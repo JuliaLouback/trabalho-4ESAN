@@ -121,8 +121,10 @@ public class ControllerViewCliente implements Initializable{
     	if(ChoiceCombo.getValue() == "Incluir") {
     		incluirCliente();
     	} else if(ChoiceCombo.getValue() == "Alterar") {
+    		TxtId.setEditable(true);
     		alterarCliente();
     	} else if(ChoiceCombo.getValue() == "Excluir") {
+    		TxtId.setEditable(true);
     		excluirCliente();
     	}
     }
@@ -163,10 +165,13 @@ public class ControllerViewCliente implements Initializable{
             	limparCampos();
             	if(ChoiceCombo.getValue() == "Incluir") {
             		camposVisiveis("Adicionar Cliente", "Adicionar", 300, false);
+            		TxtId.setEditable(true);
             	} else if (ChoiceCombo.getValue() == "Alterar"){
             		camposVisiveis("Editar Cliente", "Editar", 157, true);
+            		TxtId.setEditable(true);
             	} else if (ChoiceCombo.getValue() == "Excluir"){
             		camposVisiveis("Excluir Cliente", "Excluir", 157, true);
+            		TxtId.setEditable(true);
             	}
             }
         });
@@ -179,6 +184,7 @@ public class ControllerViewCliente implements Initializable{
 	public void incluirCliente() {
 		if(validacaoCampos()) {
 			listaClientes.add(new Cliente(listaClientes.size() + 1, TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
+			new ShowAlert().sucessoAlert("Cliente adicionado com sucesso!");
 			limparCampos();
 			listar();
 		} else {
@@ -197,6 +203,8 @@ public class ControllerViewCliente implements Initializable{
 	        	}
 	        }
 	        
+			new ShowAlert().sucessoAlert("Cliente editado com sucesso!");
+
 	    	limparCampos();
 	    	
 	        listar();

@@ -18,7 +18,7 @@ public class Principal extends Application{
 			primaryStage.setTitle("Clientes - Uni Cliente");
 			primaryStage.setResizable(false);
 			primaryStage.centerOnScreen();
-			//primaryStage.getIcons().add(new Image("/resources/img/money.png"));
+			primaryStage.getIcons().add(new Image("/resources/img/customer.png"));
 
 			primaryStage.show();
 			
