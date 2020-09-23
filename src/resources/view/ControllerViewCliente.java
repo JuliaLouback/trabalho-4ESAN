@@ -89,24 +89,34 @@ public class ControllerViewCliente implements Initializable{
         
     @FXML
     void findById(ActionEvent event) {
-        ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
-        
-        if(!TxtId.getText().isEmpty()) {
-	        for(Cliente cliente: lista) {
-	        	if(cliente.getId().equals(Integer.parseInt(TxtId.getText()))) {
-	        		TxtNome.setText(cliente.getNome());
-	        		TxtCPF.setText(cliente.getCpf());
-	        		TxtEmail.setText(cliente.getEmail());
-	        		TxtId.setEditable(false);
-	        	}
-	        }
-    	
-	    	TxtNome.setDisable(false);
-			TxtCPF.setDisable(false);
-			TxtEmail.setDisable(false);
-			btnAdd.setDisable(false);
-        }
+    	if(!pesquisaPorId()) {
+			new ShowAlert().erroAlert();
+		}  
     }
+    
+    public boolean pesquisaPorId() {
+    	 ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
+         
+         
+        for(Cliente cliente: lista) {
+        	if(cliente.getId().equals(Integer.parseInt(TxtId.getText()))) {
+        		TxtNome.setText(cliente.getNome());
+        		TxtCPF.setText(cliente.getCpf());
+        		TxtEmail.setText(cliente.getEmail());
+        		TxtId.setEditable(false);
+        		
+        		TxtNome.setDisable(false);
+    			TxtCPF.setDisable(false);
+    			TxtEmail.setDisable(false);
+    			btnAdd.setDisable(false);
+    			
+        		return true;
+        	}
+        }
+         
+         
+         return false;
+   }
 
     @FXML
     void sair(ActionEvent event) {
@@ -183,7 +193,13 @@ public class ControllerViewCliente implements Initializable{
 	
 	public void incluirCliente() {
 		if(validacaoCampos()) {
-			listaClientes.add(new Cliente(listaClientes.size() + 1, TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
+			if(listaClientes.size() != 0) {
+				Cliente cliente = listaClientes.get(listaClientes.size() -1);
+			
+				listaClientes.add(new Cliente(cliente.getId() + 1, TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
+			} else {
+				listaClientes.add(new Cliente(1, TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
+			}
 			new ShowAlert().sucessoAlert("Cliente adicionado com sucesso!");
 			limparCampos();
 			listar();

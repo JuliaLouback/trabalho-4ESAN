@@ -48,4 +48,12 @@ public class ShowAlert {
 		alert.showAndWait();
 	}
 	
+	public void erroAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Erro");
+		alert.setHeaderText(null);
+		alert.setContentText("Cliente não existe!");
+		alert.showAndWait();
+	}
+	
 }
