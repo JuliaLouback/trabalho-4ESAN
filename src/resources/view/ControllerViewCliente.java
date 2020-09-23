@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -59,9 +60,6 @@ public class ControllerViewCliente implements Initializable{
     private Label LabelNome;
 
     @FXML
-    private TextField TxtId;
-    
-    @FXML
     private TextField TxtNome;
 
     @FXML
@@ -74,15 +72,6 @@ public class ControllerViewCliente implements Initializable{
     private Button btnAdd;
 
     @FXML
-    private Button PesquisarId;
-
-    @FXML
-    private ComboBox<String> ChoiceCombo;
-
-    @FXML
-    private TextField PesquisaNome;
-    
-    @FXML
     private Pane Painel;
     
     private List<Cliente> listaClientes = new ArrayList<Cliente>();		
@@ -90,22 +79,29 @@ public class ControllerViewCliente implements Initializable{
     @FXML
     void findById(ActionEvent event) {
         ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
-        
-        if(!TxtId.getText().isEmpty()) {
-	        for(Cliente cliente: lista) {
-	        	if(cliente.getId().equals(Integer.parseInt(TxtId.getText()))) {
-	        		TxtNome.setText(cliente.getNome());
-	        		TxtCPF.setText(cliente.getCpf());
-	        		TxtEmail.setText(cliente.getEmail());
-	        		TxtId.setEditable(false);
-	        	}
-	        }
-    	
-	    	TxtNome.setDisable(false);
-			TxtCPF.setDisable(false);
-			TxtEmail.setDisable(false);
-			btnAdd.setDisable(false);
+       
+        for(Cliente cliente: lista) {
+        	if(cliente.getId().equals(Integer.parseInt("1"))) {
+        		TxtNome.setText(cliente.getNome());
+        		TxtCPF.setText(cliente.getCpf());
+        		TxtEmail.setText(cliente.getEmail());
+        	}
         }
+    }
+    
+    @FXML
+    void selecionarAcao(ActionEvent event) {
+    	String[] acoes = {"Incluir","Alterar","Excluir"};
+    	
+    	ChoiceDialog choiceDialog = new ChoiceDialog(acoes[0],acoes);
+    	choiceDialog.setHeaderText("Selecione uma Ação");
+    	choiceDialog.setContentText("Por favor selecione uma ação:");
+    	
+    	Optional<String> result = choiceDialog.showAndWait();
+    	
+    	if(result.isPresent()) {
+    		Painel.setVisible(true);
+    	}
     }
 
     @FXML
@@ -116,67 +112,17 @@ public class ControllerViewCliente implements Initializable{
 	    stage.close();
     }
 
-    @FXML
-    void botaoAcao(ActionEvent event) {
-    	if(ChoiceCombo.getValue() == "Incluir") {
-    		incluirCliente();
-    	} else if(ChoiceCombo.getValue() == "Alterar") {
-    		TxtId.setEditable(true);
-    		alterarCliente();
-    	} else if(ChoiceCombo.getValue() == "Excluir") {
-    		TxtId.setEditable(true);
-    		excluirCliente();
-    	}
-    }
 
-    @FXML
-    void findByName(ActionEvent event) {
-    	
-    	ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
-        
-    	List<Cliente> novaLista = new ArrayList<Cliente>();
-    	
-	        if(!PesquisaNome.getText().isEmpty() || !PesquisaNome.getText().equals("")) {
-		        for(Cliente cliente: lista) {
-		        	if(cliente.getNome().contains(PesquisaNome.getText())) {
-		        		System.out.println(cliente);
-		        		novaLista.add(cliente);
-		        	}
-		        }
-		        
-		 	   ObservableList<Cliente> novaListaObs = FXCollections.observableArrayList(novaLista);
-
-			   Tabela.setItems(novaListaObs);
-	        } else {
-	        	listar();
-	        }
-    }
-    
-    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Nome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Nome"));
+		Cpf.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Cpf"));
+		Email.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Email"));
+		Id.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("Id"));
+		
+	    Tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+	    
 		Painel.setVisible(false);
-		
-		ChoiceCombo.getItems().setAll("Incluir", "Alterar", "Excluir"); 
-		
-		ChoiceCombo.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-            	limparCampos();
-            	if(ChoiceCombo.getValue() == "Incluir") {
-            		camposVisiveis("Adicionar Cliente", "Adicionar", 300, false);
-            		TxtId.setEditable(true);
-            	} else if (ChoiceCombo.getValue() == "Alterar"){
-            		camposVisiveis("Editar Cliente", "Editar", 157, true);
-            		TxtId.setEditable(true);
-            	} else if (ChoiceCombo.getValue() == "Excluir"){
-            		camposVisiveis("Excluir Cliente", "Excluir", 157, true);
-            		TxtId.setEditable(true);
-            	}
-            }
-        });
-		
-		listar();
 		
 		MaskFieldUtil.cpfField(this.TxtCPF);
 	}
@@ -197,19 +143,16 @@ public class ControllerViewCliente implements Initializable{
 	        ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
 	
 	        for(Cliente cliente: lista) {
-	        	if(cliente.getId().equals(Integer.parseInt(TxtId.getText()))) {
+	        	if(cliente.getId().equals("")) {
 	        		listaClientes.remove(cliente);
-	        		listaClientes.add(new Cliente(Integer.parseInt(TxtId.getText()), TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
+	        		listaClientes.add(new Cliente(Integer.parseInt("1"), TxtCPF.getText(), TxtEmail.getText(), TxtNome.getText()));
 	        	}
 	        }
-	        
-			new ShowAlert().sucessoAlert("Cliente editado com sucesso!");
-
+	      
 	    	limparCampos();
 	    	
 	        listar();
 	        
-			camposVisiveis("Editar Cliente", "Editar", 157, true);
 		} else {
 			new ShowAlert().validacaoAlert();
 		}
@@ -220,7 +163,7 @@ public class ControllerViewCliente implements Initializable{
 
         if (new ShowAlert().confirmationAlert()) {
 			for(Cliente cliente: lista) {
-				if(cliente.getId().equals(Integer.parseInt(TxtId.getText()))) {
+				if(cliente.getId().equals(Integer.parseInt("1"))) {
 					listaClientes.remove(cliente);
 		        }
 		    }		
@@ -230,75 +173,21 @@ public class ControllerViewCliente implements Initializable{
     	
         listar();
         
-		camposVisiveis("Excluir Cliente", "Excluir", 157, true);
-
 	}
 	
 	
 	public void listar() {
-		Nome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Nome"));
-		Cpf.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Cpf"));
-		Email.setCellValueFactory(new PropertyValueFactory<Cliente, String>("Email"));
-		Id.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("Id"));
-		
-	    Tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-	    
 	    ObservableList<Cliente> lista = FXCollections.observableArrayList(listaClientes);
 
 	    Tabela.setItems(lista);
 	}
 	
 	public void limparCampos() {
-		TxtId.setText("");
 		TxtNome.setText("");
 		TxtCPF.setText("");
 		TxtEmail.setText("");
 	}
 	
-
-	public void camposVisiveis(String titulo,String botao, int tamanho, boolean visivel) {
-		LabelChange.setText(titulo);
-		btnAdd.setText(botao);
-		
-		TxtId.setPrefWidth(tamanho);
-		PesquisarId.setVisible(visivel);
-		Painel.setVisible(true);
-		
-		TxtNome.setDisable(visivel);
-		TxtCPF.setDisable(visivel);
-		TxtEmail.setDisable(visivel);
-		btnAdd.setDisable(visivel);
-		
-		if(!visivel) {
-			TxtId.setVisible(false);
-			LabelId.setVisible(false);
-			
-			LabelNome.setLayoutY(42);
-			TxtNome.setLayoutY(82);
-			
-			LabelCPF.setLayoutY(142);
-			TxtCPF.setLayoutY(182);
-			
-			LabelEmail.setLayoutY(242);
-			TxtEmail.setLayoutY(282);
-			
-			btnAdd.setLayoutY(352);
-		} else {
-			TxtId.setVisible(true);
-			LabelId.setVisible(true);
-			
-			LabelNome.setLayoutY(142);
-			TxtNome.setLayoutY(182);
-			
-			LabelCPF.setLayoutY(242);
-			TxtCPF.setLayoutY(282);
-			
-			LabelEmail.setLayoutY(342);
-			TxtEmail.setLayoutY(382);
-			
-			btnAdd.setLayoutY(452);
-		}
-	}
 	
 	public boolean validacaoCampos() {
 		
